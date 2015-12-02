@@ -2,6 +2,8 @@ package minhd.weather.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -11,24 +13,30 @@ import android.widget.TextView;
 import minhd.weather.R;
 import minhd.weather.model.Hour;
 
-/**
- * Created by dekarvn on 30/11/15.
- */
-public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder{
+
+public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder> {
+
+    private Hour[] hours;
+
+    public HourAdapter(Hour[] hours) {
+        this.hours = hours;
+    }
 
     @Override
     public HourViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.hourly_list_item, parent, false);
+        return new HourViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(HourViewHolder holder, int position) {
-
+        holder.bindHour(hours[position]);
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return hours.length;
     }
 
     public class HourViewHolder extends RecyclerView.ViewHolder {
@@ -45,8 +53,14 @@ public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder
             temperatureLabel = (TextView) itemView.findViewById(R.id.temperatureLabel);
             iconImageView = (ImageView) itemView.findViewById(R.id.iconImageView);
         }
-    }
 
+        public void bindHour(Hour hour) {
+            timeLabel.setText(hour.getHour());
+            summaryLabel.setText(hour.getSummary());
+            temperatureLabel.setText(hour.getTemperature() + "");
+            iconImageView.setImageResource(hour.getIconId());
+        }
+    }
 
 
 }

@@ -3,9 +3,10 @@ package minhd.weather.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by dekarvn on 29/11/15.
- */
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+
 public class Hour implements Parcelable{
 
     private long time;
@@ -30,8 +31,8 @@ public class Hour implements Parcelable{
         this.summary = summary;
     }
 
-    public double getTemperature() {
-        return temperature;
+    public int getTemperature() {
+        return (int) Math.round(temperature);
     }
 
     public void setTemperature(double temperature) {
@@ -40,6 +41,10 @@ public class Hour implements Parcelable{
 
     public String getIcon() {
         return icon;
+    }
+
+    public int getIconId() {
+        return Forecast.getIconId(icon);
     }
 
     public void setIcon(String icon) {
@@ -52,6 +57,12 @@ public class Hour implements Parcelable{
 
     public void setTimezone(String timezone) {
         this.timezone = timezone;
+    }
+
+    public String getHour() {
+        SimpleDateFormat formatter = new SimpleDateFormat("h a");
+        Date date = new Date(time * 1000);
+        return formatter.format(date);
     }
 
     @Override
